@@ -1,4 +1,4 @@
-const apiKey = "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";
+const apiKey = "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";
 
 const resumeText = `
 Siva Sankar S P +91 8056027241 | sivasankarsp.24@gmail.com | Data Scientist | LinkedIn
