@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Siva Sankar | Data Scientist</title>
+  <link rel="icon" href="logo3.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    :root {
+      --deep-blue: #2f5c8f;
+      --cyan: #28ffe5;
+      --lavender: #b999be;
+      --purple: #a18fff;
+      --night: #151421;
+      --glass-bg: rgba(34, 37, 51, 0.65);
+      --grad-bg: linear-gradient(135deg, #2f5c8f 0%, #b999be 65%, #28ffe5 100%);
+      --primary: #28ffe5;
+      --text: #f5f6fa;
+      --muted: #a09fa5;
+      --card-glow: 0 4px 24px 0 #28ffe530, 0 2px 8px 0 #00000010;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      color: var(--text);
+      background: var(--grad-bg) fixed;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+      background: rgba(23,23,35,0.5);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 2px 24px 0 #0a233950;
+    }
+    .container.nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3vw;
+      max-width: 1150px;
+      margin: auto;
+    }
+    .logo { display: flex; align-items: center; gap: 0.9rem; }
+    .logo .dot {
+      background: var(--primary);
+      color: var(--night);
+      width: 44px;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      font-size: 1.6rem;
+      font-weight: 700;
+      box-shadow: 0 0 24px 0 #28ffe560;
+    }
+    .name { font-size: 1.05rem; color: #c7f2ff; font-weight: 600; }
+    .role { font-size: 0.9rem; color: var(--muted);}
+    nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      letter-spacing: 0.05em;
+      font-weight: 500;
+      font-size: 1.05rem;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    nav a:hover { color: var(--primary); border-bottom: 2px solid var(--primary); }
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      text-align: center;
+      padding-top: 70px; /* header height */
+      background: transparent;
+      z-index: 2;
+    }
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: auto;
+      opacity: 0;
+      background: rgba(23,24,38,0.54);
+      padding: 2rem 2rem 1.8rem 2rem;
+      border-radius: 1.6rem;
+      box-shadow: var(--card-glow);
+      backdrop-filter: blur(6px);
+      user-select: none;
+      transition: opacity 0.7s ease;
+    }
+    .hero h1 { font-size: 2.7rem; line-height: 1.12; margin-bottom: 1.5rem; }
+    .hero h1 span { color: var(--primary); background: linear-gradient(90deg,#b999be,#28ffe5); -webkit-background-clip: text; color: transparent; }
+    .hero p { font-size: 1.22rem; margin-bottom: 2.1rem; color: #d4dbe9; }
+    .hero .btn {
+      background: var(--primary);
+      color: #182641;
+      padding: 1.05rem 2.2rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 2px 22px #28ffe570;
+      text-decoration: none;
+      transition: 0.22s;
+      letter-spacing: 0.06em;
+    }
+    .hero .btn:hover { transform: scale(1.06); }
+    main {
+      padding-top: 12px;
+      max-width: 1100px;
+      margin: 0 auto 4.3rem auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+      background: transparent;
+    }
+    .section {
+      margin-top: 3.5rem;
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      background: var(--glass-bg);
+      border-radius: 1.4rem;
+      box-shadow: var(--card-glow);
+      backdrop-filter: blur(10px);
+      padding: 3.6rem 2rem 3rem 2rem;
+      transition: opacity 0.7s ease;
+    }
+    .section h2 {
+      text-align: center;
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin-bottom: 2.2rem;
+      letter-spacing: 0.04em;
+      background: linear-gradient(90deg, #b999be 0 60%, #28ffe5 100%);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2.1rem;
+    }
+    .project-card {
+      background: rgba(44, 48, 66, 0.86);
+      border-radius: 1.2rem;
+      padding: 1.2rem 1.1rem;
+      text-align: left;
+      box-shadow: var(--card-glow);
+      transition: transform 0.37s, box-shadow 0.42s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      min-height: 350px;
+    }
+    .project-card:hover {
+      transform: translateY(-9px) scale(1.025);
+      box-shadow: 0 12px 42px 0 #28ffe534, var(--card-glow);
+      background: rgba(44, 48, 114, 0.97);
+    }
+    .project-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 0.7rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 18px 0 #15142114;
+    }
+    .project-card h3 {
+      margin: 0.3rem 0 0.55rem 0;
+      font-size: 1.21rem;
+      font-family: 'Poppins', sans-serif;
+      color: var(--primary);
+      font-weight: 700;
+      background: linear-gradient(90deg,#b999be,#28ffe5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .project-card p { font-size: 1.01rem; color: #f6f7ff; font-weight: 500; }
+    .skills-list {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+      list-style: none; margin: 0; padding: 0;
+    }
+    .skills-list li {
+      background: rgba(46, 54, 76, 0.77);
+      padding: 0.57rem 1.2rem;
+      border-radius: 900px;
+      font-size: 1.03rem;
+      font-weight: 600;
+      color: #cbeaff;
+      margin-bottom: 0.4rem;
+      box-shadow: var(--card-glow);
+      transition: transform 0.37s, box-shadow 0.42s, background 0.37s;
+      cursor: pointer;
+    }
+    .skills-list li:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 12px 42px 0 #28ffe534, var(--card-glow);
+      background: rgba(46, 54, 114, 0.97);
+    }
+    .timeline {
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .timeline-item {
+      background: rgba(40, 41, 63, 0.79);
+      border-left: 5px solid #28ffe5;
+      padding: 1.06rem 1.1rem;
+      border-radius: 0.9rem;
+      box-shadow: var(--card-glow);
+      transition: transform 0.37s, box-shadow 0.42s, background 0.37s;
+      cursor: pointer;
+    }
+    .timeline-item:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 12px 42px 0 #28ffe534, var(--card-glow);
+      background: rgba(46, 54, 114, 0.97);
+    }
+    .timeline-item strong { color: #a18fff; font-weight: bold; }
+    .contact {
+      text-align: center;
+      color: var(--text);
+    }
+    .contact a {
+      color: #28ffe5;
+      text-decoration: underline;
+    }
+    footer {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      padding: 2.8rem 0 2.2rem 0;
+      margin-top: 2rem;
+      background: rgba(15, 15, 27, 0.85); /* semi-transparent dark */
+      color: #eee;
+      font-size: 1.1rem;
+    }
+    /* Scroll end glass effect */
+    .scroll-end-glass {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      min-width: 340px;
+      max-width: 620px;
+      width: 55vw;
+      height: 110px;
+      background: rgba(34,37,51,0.68);
+      box-shadow: var(--card-glow), 0 0 32px 0 #aaa5fd44;
+      backdrop-filter: blur(14px);
+      border-radius: 1.5rem;
+      z-index: 25;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s cubic-bezier(0.56,0,0.25,1);
+      font-size: 1.25rem;
+      color: #e6eaff;
+    }
+    @media (max-width: 700px) {
+      .section h2 { font-size: 1.33rem; }
+      .section { padding: 2rem 1rem 2rem 1rem; }
+      .scroll-end-glass { min-width: 160px; height: 74px; font-size: .97rem; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <div class="dot">SS</div>
+      <div>
+        <div class="name">Siva Sankar S P</div>
+        <div class="role">Aspiring Data Scientist | Building Data-Driven Solutions</div>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<section id="home" class="hero">
+  <canvas id="three-canvas"></canvas>
+  <div class="hero-content">
+    <h1>Hello, I'm <span>Siva Sankar</span></h1>
+    <p>Aspiring Data Scientist with hands-on experience in Front-End Development and Quality Assurance. Skilled in Python, SQL, and Power BI. Eager to apply data-driven solutions and enhance product quality.</p>
+    <a href="#projects" class="btn">Check My Project Highlights</a>
+  </div>
+</section>
+<main>
+  <section id="projects" class="section">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <!-- project cards unchanged -->
+      <div class="project-card">
+        <img src="image1.png" alt="SEM" />
+        <h3>Sentiment Analysis on IMDb</h3>
+        <p>Built a DistilBERT-based sentiment model with 87.94% accuracy. Used Hugging Face Transformers for NLP tasks, applying deep learning for impactful outcome and efficient performance.</p>
+      </div>
+      <div class="project-card">
+      <img src="image.png" alt="SEM"/>
+      <h3>Structural Equation Modelling</h3>
+      <p>Executed SEM on FinTech survey data using Python, NetworkX & Matplotlib. Visualized model structure and documented results, showcasing advanced analytics in financial research.</p>
+      </div>
+      <div class="project-card">
+        <img src="image2.png" alt="SEM"/>
+        <h3>Management Systems Development</h3>
+        <p>Contributed to License & Leave Management Systems. Built responsive UIs with HTML/CSS, improved workflows, and optimized team collaboration for live project delivery.</p>
+      </div>
+      <div class="project-card">
+        <img src="image3.png" alt="SEM"/>
+        <h3>End-to-End Software Testing</h3>
+        <p>Designed & executed test cases for multiple modules. Performed API testing with Postman, built Power BI dashboards, and applied ISTQB principles to deliver robust QA.</p>
+      </div>
+    </div>
+  </section>
+  <section id="skills" class="section">
+    <h2>Skills</h2>
+    <ul class="skills-list">
+      <li>Python / SQL / HTML / CSS</li>
+      <li>Machine Learning / Deep Learning / AI</li>
+      <li>NLP / Hugging Face</li>
+      <li>TensorFlow / Scikit-learn / OpenCV / Matplotlib</li>
+      <li>Power BI / Postman</li>
+      <li>Manual Testing / Black-Box Testing / Sanity Testing </li>
+      <li>Team Collaboration / Documentation / Task Coordination</li>
+      <li>Leadership / Communication / Problem Solving</li>
+    </ul>
+  </section>
+  <section id="experience" class="section">
+    <h2>Professional Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <strong>Quality Analyst Trainee (Intern) — Tristha Global Pvt Ltd</strong><br />
+        May 2025 – Aug 2025 | Chennai, TN<br />
+        API testing, Power BI dashboards, test case documentation, ISTQB concepts applied.
+      </div>
+      <div class="timeline-item">
+        <strong>Front-End Developer Intern — Salesqueen Software Solutions</strong><br />
+        Nov 2024 – Feb 2025 | Chennai, TN<br />
+        Developed License & Leave Management Systems, built responsive UIs, drove efficient team workflow.
+      </div>
+      <div class="timeline-item">
+        <strong>Data Science Intern — Aristocrat Research IT Solutions</strong><br />
+        Jul 2024 – Aug 2024 | Chennai, TN<br />
+        Sentiment analysis with DistilBERT, SEM modeling, Python visualizations for finance data.
+      </div>
+    </div>
+  </section>
+  <section id="contact" class="section contact" style="margin-top:60px;">
+    <h2 style="text-align:center; margin-bottom:2rem;">Contact Me</h2>
+    <div class="contact-details">
+      <p>Email: <a href="mailto:sivasankarsp.24@gmail.com">sivasankarsp.24@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/siva-sankar-67154b294/" target="_blank" rel="noopener noreferrer">linkedin.com/in/siva-sankar-67154b294</a></p>
+      <p>GitHub: <a href="https://github.com/sivasankar-24" target="_blank" rel="noopener noreferrer">github.com/sivasankar-24</a></p>
+      <p>Resume: <a href="SivaSankar_Resume.pdf" download style="color:#28ffe5;text-decoration:underline">Download My Resume</a></p>
+      <p style="margin-top:1.7rem;"><em>Open to collaboration and new opportunities – feel free to connect for professional inquiries.</em></p>
+    </div>
+  </section>
+</main>
+<footer>
+  <p>© 2025 Siva Sankar S P. All rights reserved. Built with care using modern web technologies and a passion for intelligent, data-driven solutions.</p>
+</footer>
+<script>
+  document.getElementById('download-resume').addEventListener('click', function(e) {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = 'SivaSankar_Resume.pdf'; 
+    link.download = 'SivaSankar_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+</script>
+
+<script>    
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const heroContent = document.querySelector('.hero-content');
+      gsap.to(heroContent, { duration: 1, opacity: 1, ease: "power3.out" });
+    }, 1700);
+    setTimeout(() => {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach((section, i) => {
+        gsap.to(section, {
+          duration: 1,
+          opacity: 1,
+          ease: "power3.out",
+          delay: i * 0.5
+        });
+      });
+    }, 3200);
+  });
+  gsap.utils.toArray('.section').forEach(section => {
+    gsap.fromTo(section, {
+      opacity: 0,
+      y: 60
+    }, {
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 90%',
+        end: 'bottom 10%',
+        toggleActions: 'play reverse play reverse',
+      },
+      opacity: 1,
+      y: 0,
+      duration: 1.3,
+      ease: 'power3.out'
+    });
+  });
+  // Glass effect at scroll end
+  function showEndGlass() {
+    const endGlass = document.getElementById('scroll-glass-end');
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {
+      gsap.to(endGlass, { duration: 0.9, opacity: 1, ease: "power2.out" });
+    } else {
+      gsap.to(endGlass, { duration: 0.8, opacity: 0, ease: "power2.in" });
+    }
+  }
+  window.addEventListener('scroll', showEndGlass);
+  // Three.js rotating cube background
+  const canvas = document.getElementById("three-canvas");
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshStandardMaterial({ color: 0x28ffe5, metalness: 0.27, roughness: 0.35 });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+  const light = new THREE.PointLight(0xffffff, 1);
+  light.position.set(5, 5, 5);
+  scene.add(light);
+  camera.position.z = 3;
+  function animate() {
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+  }
+  animate();
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+</body>
+</html>
+
+
+<!-- Chatbot HTML (aichatbot.html) snippet for comparison -->
+<style>
+  /* Floating emoji button */
+  #toggleButton {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #28ffe5;
+    box-shadow: 0 0 24px #28ffe590, 0 6px 22px #0a233950;
+    border: none;
+    color: #151421;
+    font-size: 2.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.2s;
+    z-index: 1100;
+    animation: popIn 0.7s cubic-bezier(0.86, 0.29, 0.68, 1.5);
+  }
+
+  #toggleButton:hover {
+    box-shadow: 0 0 32px #28ffe5b5, 0 8px 38px #0a233950;
+  }
+
+  @keyframes popIn {
+    from {
+      transform: scale(0.7) rotate(-40deg);
+      opacity: 0;
+    }
+    75% {
+      transform: scale(1.13) rotate(13deg);
+    }
+    to {
+      transform: scale(1) rotate(0) ;
+      opacity: 1;
+    }
+  }
+
+  /* Chat container */
+  #chatContainer {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 370px;
+    max-width: 95vw;
+    height: 510px;
+    background: linear-gradient(135deg, #21375a 0%, #2d5587 60%, #22d7db 140%);
+    box-shadow: 0 0 36px #1ecbd085, 0 6px 35px #0c325a8a;
+    border-radius: 1.5rem;
+    border: 2px solid #17e9eb;
+    color: #e1f9fe;
+    font-family: 'Arial', sans-serif;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1110;
+    backdrop-filter: saturate(180%) blur(12px);
+    animation: appear 0.4s ease-out forwards;
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(50px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Header */
+  #chatHeader {
+    background: linear-gradient(90deg, #005c96 0%, #00f6ff 120%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #00f6ff;
+    border-radius: 1.5rem 1.5rem 0 0;
+    padding: 16px 20px;
+    box-shadow: 0 4px 10px #17e9ebaa;
+  }
+
+  #chatHeader h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #00eadb;
+    text-shadow: 0 0 5px #00fcff;
+  }
+
+  #closeButton {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #00eadb;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+
+  #closeButton:hover {
+    color: #008499;
+  }
+
+  /* Messages area */
+  #messagesArea {
+    flex: 1;
+    padding: 12px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #d0e1eb;
+    font-size: 1rem;
+    background: transparent;
+  }
+
+  .message {
+    max-width: 80%;
+    border-radius: 12px;
+    padding: 12px 16px;
+    line-height: 1.5;
+    box-shadow: 0 4px 15px #0ad8e896;
+    animation: slideIn 0.3s ease forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .userMessage {
+    background: linear-gradient(90deg, #00fef3 0%, #00a3a8 100%);
+    color: #151c1f;
+    align-self: flex-end;
+    border-radius: 15px 15px 0 15px;
+  }
+
+  .botMessage {
+    background: linear-gradient(90deg, #004768 0%, #007da8 100%);
+    color: #aee0ea;
+    align-self: flex-start;
+    border-radius: 15px 15px 15px 0;
+  }
+
+  /* Input area */
+  #inputArea {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 3px solid #00f6ff;
+    box-shadow: 0 0 25px #00f6ff66 inset;
+  }
+
+  #userInput {
+    flex: 1;
+    border: none;
+    border-radius: 9999px;
+    padding: 0 16px;
+    height: 44px;
+    font-size: 1rem;
+    background: #202b35;
+    color: #c4f4f2;
+    box-shadow: 0 0 8px #0dfdff33 inset;
+    outline: none;
+    transition: box-shadow 0.25s ease;
+  }
+
+  #userInput:focus {
+    box-shadow: 0 0 12px #00fff7aa inset;
+  }
+
+  #sendButton {
+    width: 44px;
+    height: 44px;
+    margin-left: 9px;
+    border-radius: 9999px;
+    border: none;
+    background: #00fef3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    box-shadow: 0 0 15px #00fef3cc;
+  }
+
+  #sendButton:hover {
+    background: #008ea8;
+    box-shadow: 0 0 20px #00e0ffcc;
+  }
+
+  #sendButton svg {
+    width: 24px;
+    height: 24px;
+    fill: #151c1f;
+  }
+
+  @media (max-width: 600px) {
+    #chatContainer {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    #inputArea {
+      padding: 10px;
+    }
+
+    #userInput {
+      padding: 0 12px;
+    }
+
+    #sendButton {
+      margin-left: 6px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+</style>
+
+<button id="toggleButton" aria-label="Open chat">
+  <span>🤖</span>
+</button>
+
+<div id="chatContainer" role="region" aria-label="Chat window" aria-hidden="true">
+  <div id="chatHeader">
+    <h2>Jarvis - Virtual Assistant</h2>
+    <button id="closeButton" aria-label="Close chat">×</button>
+  </div>
+  <div id="messagesArea" role="log" aria-live="polite">
+    <div class="message botMessage" aria-live="polite" aria-atomic="true" style="animation:none;">
+      Hi, I’m Jarvis, a virtual assistant for Mr. Siva Sankar. How can I help you today?
+    </div>
+  </div>
+  <form id="chatForm" aria-label="Chat input form" role="form">
+    <div id="inputArea">
+      <input id="userInput" type="text" placeholder="Type your message..." autocomplete="off" aria-label="Type your message" />
+      <button type="submit" id="sendButton" aria-label="Send message">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="3,21 23,12 3,3 3,10 17,12 3,14"></polygon>
+        </svg>
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const toggleButton = document.getElementById('toggleButton');
+  const chatContainer = document.getElementById('chatContainer');
+  const closeButton = document.getElementById('closeButton');
+  const messagesArea = document.getElementById('messagesArea');
+  const userInput = document.getElementById('userInput');
+  const chatForm = document.getElementById('chatForm');
+  const sendButton = document.getElementById('sendButton');
+
+  toggleButton.addEventListener('click', () => {
+    chatContainer.style.display = 'flex';
+    toggleButton.style.display = 'none';
+    chatContainer.setAttribute('aria-hidden', 'false');
+    userInput.focus();
+  });
+
+  closeButton.addEventListener('click', () => {
+    chatContainer.style.display = 'none';
+    toggleButton.style.display = 'flex';
+    chatContainer.setAttribute('aria-hidden', 'true');
+  });
+
+  function appendMessage(text, sender) {
+    const message = document.createElement('div');
+    message.classList.add('message', sender === 'user' ? 'userMessage' : 'botMessage');
+    message.textContent = text;
+    messagesArea.appendChild(message);
+    message.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
+  async function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+    appendMessage(text, 'user');
+    userInput.value = '';
+
+    try {
+      const response = await fetch('https://your-real-railway-url/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      if (data.response) appendMessage(data.response, 'bot');
+    } catch (error) {
+      appendMessage('Sorry, I am unable to respond right now.', 'bot');
+    }
+  }
+
+  sendButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    sendMessage();
+  });
+
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendMessage();
+  });
+
+  userInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+</script>
